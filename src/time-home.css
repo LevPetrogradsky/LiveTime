@@ -1,0 +1,85 @@
+.life-time-home {
+  min-height: calc(100dvh - 80px);
+  display: grid;
+  place-items: center;
+  padding: 32px 20px 100px;
+  background: #f6f8fc;
+  color: #172442;
+  text-align: center;
+}
+
+.life-time-home-content {
+  width: min(100%, 540px);
+  display: grid;
+  justify-items: center;
+  padding: clamp(28px, 5vw, 44px);
+  border: 1px solid #dce5ef;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 16px 44px rgb(25 50 87 / 10%);
+}
+
+.life-time-home-eyebrow {
+  margin: 0 0 6px;
+  color: #61718b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.life-time-home h1 { margin: 0 0 26px; font-size: clamp(28px, 6vw, 38px); }
+
+.life-time-home-clock {
+  width: clamp(154px, 25dvh, 208px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 10px solid #edf4fc;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #dce5ef, inset 0 0 0 1px #dce5ef;
+  background: #edf4fc;
+  font-size: clamp(32px, 8vw, 44px);
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.life-time-home-caption { margin: 24px 0; color: #61718b; line-height: 1.5; }
+
+.life-time-home-start,
+.life-time-home-presets {
+  width: min(100%, 280px);
+  min-height: 48px;
+  border-radius: 13px;
+  font-weight: 700;
+}
+
+.life-time-home-start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #2f68ac;
+  background: #2f68ac;
+  color: #fff;
+}
+
+.life-time-home-presets {
+  margin-top: 10px;
+  border: 1px solid #dce5ef;
+  background: #fff;
+  color: #245da4;
+}
+
+.life-time-home button:focus-visible { outline: 2px solid #245da4; outline-offset: 3px; }
+
+:root[data-theme='dark'] .life-time-home { background: #171717; color: #ececec; }
+:root[data-theme='dark'] .life-time-home-content { background: #242424; border-color: #3b3b3b; box-shadow: none; }
+:root[data-theme='dark'] .life-time-home-eyebrow,
+:root[data-theme='dark'] .life-time-home-caption { color: #b8b8b8; }
+:root[data-theme='dark'] .life-time-home-clock { background: #303030; border-color: #303030; box-shadow: 0 0 0 1px #3b3b3b; }
+:root[data-theme='dark'] .life-time-home-start { background: #a7c4fb; border-color: #a7c4fb; color: #18243a; }
+:root[data-theme='dark'] .life-time-home-presets { background: #242424; border-color: #3b3b3b; color: #b8d0ff; }
+
+@media (max-width: 760px) {
+  .life-time-home { min-height: calc(100dvh - 80px); padding: 28px 16px calc(var(--life-mobile-nav-height) + 24px); }
+  .life-time-home-content { padding: 26px 20px; }
+}

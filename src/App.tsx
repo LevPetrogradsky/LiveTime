@@ -25,10 +25,11 @@ import { completionKey, initialOnboardingMode } from './onboarding/state'
 import { translate, type AppLanguage } from './language'
 import './reflection-confirmation.css'
 import './mobile-navigation.css'
+import './time-home.css'
 import { mobileNavigationLayout } from './mobile-navigation'
 import { repositoryUrl, serviceMode, serviceName } from './service-mode'
 
-type View = Exclude<Shortcut, 'focus'> | 'main' | 'ask' | 'settings' | 'focus-history' | 'presets'
+type View = Exclude<Shortcut, 'focus'> | 'main' | 'ask' | 'settings' | 'focus-history' | 'presets' | 'time-home'
 const shortcutIcons = { tasks: ClipboardList, journal: BookOpen, focus: Play, flow: MessageCircle }
 const serviceLabels = { tasks: 'LiveTasks', journal: 'LiveJournal', focus: 'LiveTime', flow: '3 questions' }
 const factors: Factor[] = ['Meaningful Goal', 'Personal Control', 'Fast Feedback', 'Other']
@@ -54,7 +55,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
   const showAskLiveOS = serviceMode === 'hub' && data.askLiveOSInBar === true
   const onHome = (id: Shortcut) => shortcutVisible(data, id, 'home')
   const inBar = (id: Shortcut) => serviceMode === 'hub' ? shortcutVisible(data, id, 'bar') : id === serviceMode || (serviceMode === 'time' && id === 'focus')
-  const defaultView: View = serviceMode === 'time' ? 'presets' : serviceMode === 'tasks' || serviceMode === 'journal' ? serviceMode : showHome ? 'main' : (['journal', 'tasks'] as const).find(inBar) ?? 'settings'
+  const defaultView: View = serviceMode === 'time' ? 'time-home' : serviceMode === 'tasks' || serviceMode === 'journal' ? serviceMode : showHome ? 'main' : (['journal', 'tasks'] as const).find(inBar) ?? 'settings'
   const [requestedView, setView] = useState<View>(() => {
     try { return serviceMode === 'hub' && localStorage.getItem(`${storageKey ?? STORAGE_KEY}.last-view`) === 'journal' ? 'journal' : defaultView }
     catch { return defaultView }
@@ -657,6 +658,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
       return <NavButton key={id} icon={<Icon size={iconSize} />} label={serviceLabels[id]} selected={view === id}
         onClick={() => {
           if (id !== 'focus') navigate(id)
+          else if (serviceMode === 'time') navigate('time-home')
           else if (data.activeSession) returnToFocus()
           else startFocus()
         }} />
@@ -701,7 +703,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
     }
     clearOnboardingPreviewUrl()
     setOnboardingMode(null)
-    navigate(destination === 'focus' ? 'presets' : destination)
+    navigate(destination === 'focus' ? defaultView : destination)
     return true
   }
 
@@ -790,6 +792,26 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
         {backupMessage && <div className="storage-error" role="status">{backupMessage}</div>}
         {reflectionNotice && <div className="lifeos-reflection-confirmation" role="status">{reflectionNotice}</div>}
         {breakReminder}
+        {view === 'time-home' && <main className="life-time-home">
+          <div className="life-time-home-content">
+            <p className="life-time-home-eyebrow">LiveTime</p>
+            <h1>{language === 'ru' ? 'Таймер' : 'Timer'}</h1>
+            <div className="life-time-home-clock" role="timer" aria-label={language === 'ru' ? 'Время фокуса' : 'Focus time'}>
+              {data.activeSession ? elapsedClock(focusedDuration(data.activeSession, now)) : '00:00'}
+            </div>
+            <p className="life-time-home-caption">{data.activeSession
+              ? data.activeSession.taskTitle
+              : language === 'ru' ? 'Начните, когда будете готовы.' : 'Start when you are ready.'}</p>
+            <button type="button" className="life-time-home-start" onClick={data.activeSession ? returnToFocus : () => { startFocus() }}>
+              <Play size={19} aria-hidden="true" /> {data.activeSession
+                ? language === 'ru' ? 'Открыть таймер' : 'Open timer'
+                : language === 'ru' ? 'Запустить таймер' : 'Start timer'}
+            </button>
+            <button type="button" className="life-time-home-presets" onClick={openPresets}>
+              {language === 'ru' ? 'Пресеты' : 'Presets'}
+            </button>
+          </div>
+        </main>}
         {(view === 'main' || view === 'tasks') && <MainDashboard key={`${view}:${homeNavigationKey}`}
           initialScreen={view === 'tasks' ? 'tasks' : 'home'}
           hideBack={serviceMode === 'tasks'}

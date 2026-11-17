@@ -3,7 +3,7 @@ import MainFocus from './MainFocus'
 import TaskHistory from './TaskHistory'
 import AskLiveOS from './home/AskLifeOS'
 import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent, type CSSProperties, type FormEvent, type ReactNode, type SetStateAction } from 'react'
-import { ArrowRight, BookOpen, ClipboardList, House, Leaf, MessageCircle, Play, Settings2, Sparkles } from 'lucide-react'
+import { ArrowRight, BookOpen, ClipboardList, History, House, Leaf, MessageCircle, Play, Settings2, Sparkles } from 'lucide-react'
 import { elapsedClock, focusedDuration, loadData, recordUnratedSession, restoreBackup, saveData, shortcuts, shortcutVisible, timerView, visibleShortcuts, STORAGE_KEY, type Factor, type JournalFolderAppearance, type LiveOSData, type Shortcut, type ShortcutLocation, type Task } from './data'
 import { base64ToBytes, buildNoteBlocks, makeImportedNote, type SourceIndex } from './notes'
 import JournalPage, { type JournalDraft } from './journal/JournalPage'
@@ -661,6 +661,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
           else startFocus()
         }} />
     })}
+    {serviceMode === 'time' && <NavButton icon={<History size={iconSize} />} label={t('Focus history')} selected={view === 'focus-history'} onClick={() => navigate('focus-history')} />}
     {showAskLiveOS && <NavButton icon={<MessageCircle size={iconSize} />} label={t('Guide')} selected={view === 'ask'} onClick={() => navigate('ask')} />}
     {bottom && <NavButton icon={<Settings2 size={iconSize} />} label={t('Settings')} selected={view === 'settings'} onClick={() => navigate('settings')} />}
   </>
@@ -766,7 +767,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
     {undoNotice}
   </>)
 
-  const visibleNavCount = Number(showHome) + visibleShortcuts.filter(({ id }) => inBar(id)).length + Number(showAskLiveOS) + 1
+  const visibleNavCount = Number(showHome) + visibleShortcuts.filter(({ id }) => inBar(id)).length + Number(serviceMode === 'time') + Number(showAskLiveOS) + 1
   const mobileNavLayout = mobileNavigationLayout(visibleNavCount)
   const extraNavHeight = (mobileNavLayout.rows - 1) * 66
   const mobileNavStyle = {
@@ -835,7 +836,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
           appliedPresetId={data.focusPresetId}
           sessionState={data.pendingSession ? 'pending' : data.activeSession ? 'active' : 'idle'}
           onApply={applyPreset}
-          onBack={() => navigate(presetsReturnView)}
+          onBack={() => navigate(serviceMode === 'time' ? 'focus-history' : presetsReturnView)}
         />}
 
         {(view === 'flow' || view === 'focus-history') && <FlowEnginePage key={view}

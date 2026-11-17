@@ -4,6 +4,8 @@ import { breakReminderMinutes, maxDisplayNameLength, visibleShortcuts, type Brea
 import { translate, type AppLanguage } from '../language'
 import InteractiveTip from '../InteractiveTip'
 import JournalCloudPanel, { type JournalCloudControls } from './JournalCloudPanel'
+import TimeSettingsPage from './TimeSettingsPage'
+import { serviceMode } from '../service-mode'
 import './settings.css'
 
 const shortcutNames = { tasks: 'LiveTasks', journal: 'LiveJournal', focus: 'LiveTime', flow: '3 questions' }
@@ -135,6 +137,14 @@ export default function SettingsPage({
   theme, onThemeChange, language, onLanguageChange, timeFormat, onTimeFormatChange, interactiveTips, onInteractiveTipsChange, showHome, onHomeVisibilityChange, showAskLiveOS, onAskLiveOSVisibilityChange, shortcutVisible, onShortcutChange, onExport, onImport, repoUrl, focusCheckin, postFocusAction, onOpenPresets,
   reminderMinutes, onReminderMinutesChange, displayName, onDisplayNameChange, timerDefaultView, onTimerDefaultViewChange,
 }: SettingsPageProps) {
+  if (serviceMode === 'time') return <TimeSettingsPage
+    account={account} language={language} onLanguageChange={onLanguageChange}
+    theme={theme} onThemeChange={onThemeChange} timeFormat={timeFormat} onTimeFormatChange={onTimeFormatChange}
+    timerDefaultView={timerDefaultView} onTimerDefaultViewChange={onTimerDefaultViewChange}
+    reminderMinutes={reminderMinutes} onReminderMinutesChange={onReminderMinutesChange}
+    focusCheckin={focusCheckin} postFocusAction={postFocusAction} onOpenPresets={onOpenPresets}
+    onExport={onExport} onImport={onImport}
+  />
   const t = (text: string) => translate(language, text)
   const [openSections, setOpenSections] = useState<Record<SettingsSection, boolean>>({
     account: false, profile: false, focus: false, focusOptions: false,

@@ -1,6 +1,8 @@
-# LiveHub
+# LiveTime
 
-LiveHub brings LiveTasks, LiveJournal, and LiveTime together in a small web application. Its Hub also links to the growing family of Live services. This repository starts from the web preview source at commit `375dbdfb7fb25d56104873fb00eafa37c2aba5d6`.
+Focus sessions, presets, and history. This is a runnable service-first extraction of [LiveHub](https://github.com/LevPetrogradsky/LiveHub) at commit `5af32d5`. The service opens directly to its workspace.
+
+Shared support code remains while the services are split safely. Internal `lifeos.v1` storage identifiers and version 1 backup formats stay in place for compatibility.
 
 ## Ownership and permitted use
 
@@ -27,4 +29,4 @@ Some internal identifiers still use `lifeos` so existing browser data and backup
 
 The three service repositories initially share this app's data model and support code. Each opens its own service first. Browser storage remains tied to each site's origin; use Settings → Export and Import to move a backup between sites. The existing `lifeos.v1` key and backup formats are retained for compatibility.
 
-This repository contains source code, not personal journal entries or production credentials. The existing Vercel preview is a separate deployment and is not automatically connected to this repository.
+This repository contains source code, not personal journal entries or production credentials. No independent Vercel deployment is connected yet.

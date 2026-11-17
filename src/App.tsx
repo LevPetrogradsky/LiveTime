@@ -792,6 +792,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
         {breakReminder}
         {(view === 'main' || view === 'tasks') && <MainDashboard key={`${view}:${homeNavigationKey}`}
           initialScreen={view === 'tasks' ? 'tasks' : 'home'}
+          hideBack={serviceMode === 'tasks'}
           onReturnHome={view === 'tasks' ? returnFromSection : undefined}
           returnLabel={returnLabel}
           showTasksShortcut={onHome('tasks')}
@@ -853,6 +854,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
 
         {view === 'journal' && (
           <JournalPage language={language} timeFormat={timeFormat} entries={data.journal} folders={data.journalFolders ?? []} draft={journalDraft} onDraftChange={changeJournalDraft}
+            hideBack={serviceMode === 'journal'}
             draftSaveError={journalDraftError}
             draftStorageKey={storageKey} onDraftStorageError={() => setStorageError(true)}
             cloudStatus={cloudEnabled ? journalCloudStatus : undefined}

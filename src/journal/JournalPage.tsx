@@ -26,6 +26,7 @@ export interface JournalDraft {
 interface JournalPageProps {
   language?: AppLanguage
   timeFormat: '12' | '24'
+  hideBack?: boolean
   onReturn: () => void
   returnLabel: string
   entries: JournalEntry[]
@@ -518,7 +519,7 @@ function JournalCard({ entry, entries, folders, onEdit, onDelete, onMove, onOpen
 
 export default function JournalPage({
   language = 'en', timeFormat,
-  onReturn, returnLabel,
+  onReturn, returnLabel, hideBack = false,
   entries, folders, cloudStatus, guestImportCount = 0, onImportGuest, onSaveFolder, onReorderFolders, onDeleteFolder, onMoveEntry, draft, draftSaveError, onDraftChange, draftStorageKey, onDraftStorageError, linkedTaskTitle, onUnlinkTask, sessionPrompt, onDismissPrompt, onCreate, onEdit, onDelete, searchResult, onSelectSearchEntry,
 }: JournalPageProps) {
   const t = (text: string) => translate(language, text)
@@ -549,9 +550,9 @@ export default function JournalPage({
     <main className="journal-page">
       <header className="journal-title">
         <div className="journal-title-heading">
-          <button type="button" className="journal-icon journal-search-toggle" aria-label={t(returnLabel)} onClick={onReturn}>
+          {!hideBack && <button type="button" className="journal-icon journal-search-toggle" aria-label={t(returnLabel)} onClick={onReturn}>
             <ArrowLeft size={21} aria-hidden="true" />
-          </button>
+          </button>}
           <h1>LiveJournal</h1>
         </div>
         <button type="button" className="journal-icon journal-search-toggle" aria-label={t('Search journal')}

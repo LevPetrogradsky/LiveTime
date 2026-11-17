@@ -9,6 +9,7 @@ import './home-tips.css'
 
 interface MainDashboardProps {
   initialScreen?: 'home' | 'tasks'
+  hideBack?: boolean
   onReturnHome?: () => void
   returnLabel: string
   showTasksShortcut: boolean
@@ -85,7 +86,7 @@ function BreakCard({ taskTitle, activeTime, showTime, running, language, onPause
   </section>
 }
 
-export default function MainDashboard({ initialScreen = 'home', onReturnHome, returnLabel, showTasksShortcut, showFocusShortcut, searchIncludesJournal, repoUrl, tasks, focusTaskTitle, focusRunning = false, pausedActiveTime, showPausedTime = true, displayName, language = 'en', onPauseFocus, onContinueFocus, onReturnToFocus, onFinishPaused, onCancelFocus, onUpdate, onOpenTask, onDeleteTask, onStart, onStartOpenFocus, onJournal, onFocusHistory, onSettings, onSearch }: MainDashboardProps) {
+export default function MainDashboard({ initialScreen = 'home', hideBack = false, onReturnHome, returnLabel, showTasksShortcut, showFocusShortcut, searchIncludesJournal, repoUrl, tasks, focusTaskTitle, focusRunning = false, pausedActiveTime, showPausedTime = true, displayName, language = 'en', onPauseFocus, onContinueFocus, onReturnToFocus, onFinishPaused, onCancelFocus, onUpdate, onOpenTask, onDeleteTask, onStart, onStartOpenFocus, onJournal, onFocusHistory, onSettings, onSearch }: MainDashboardProps) {
   const t = (text: string) => translate(language, text)
   const [screen, setScreen] = useState(initialScreen)
   const [filter, setFilter] = useState<TaskList | 'completed'>('today')
@@ -335,10 +336,10 @@ export default function MainDashboard({ initialScreen = 'home', onReturnHome, re
 
   return <main className="life-main life-main-tasks">
     <header className="life-main-tasks-header">
-      <button type="button" className="life-main-icon" aria-label={t(returnLabel)} onClick={() => {
+      {!hideBack && <button type="button" className="life-main-icon" aria-label={t(returnLabel)} onClick={() => {
         if (onReturnHome) onReturnHome()
         else { setScreen('home'); showList('today') }
-      }}><ArrowLeft size={21} /></button>
+      }}><ArrowLeft size={21} /></button>}
       <h1 ref={heading} tabIndex={-1}>LiveTasks</h1>
       <button type="button" className="life-main-icon" aria-label={t('Add task')} aria-haspopup="dialog" disabled={!canAdd} onClick={() => addTo(addList)}><Plus size={23} /></button>
     </header>

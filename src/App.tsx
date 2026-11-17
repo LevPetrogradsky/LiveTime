@@ -3,7 +3,7 @@ import MainFocus from './MainFocus'
 import TaskHistory from './TaskHistory'
 import AskLiveOS from './home/AskLifeOS'
 import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent, type CSSProperties, type FormEvent, type ReactNode, type SetStateAction } from 'react'
-import { ArrowRight, BookOpen, ClipboardList, History, House, Leaf, MessageCircle, Play, Settings2, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, ClipboardList, History, House, Leaf, MessageCircle, Play, Settings2, Sparkles } from 'lucide-react'
 import { elapsedClock, focusedDuration, loadData, recordUnratedSession, restoreBackup, saveData, shortcuts, shortcutVisible, timerView, visibleShortcuts, STORAGE_KEY, type Factor, type JournalFolderAppearance, type LiveOSData, type Shortcut, type ShortcutLocation, type Task } from './data'
 import { base64ToBytes, buildNoteBlocks, makeImportedNote, type SourceIndex } from './notes'
 import JournalPage, { type JournalDraft } from './journal/JournalPage'
@@ -34,6 +34,7 @@ const shortcutIcons = { tasks: ClipboardList, journal: BookOpen, focus: Play, fl
 const serviceLabels = { tasks: 'LiveTasks', journal: 'LiveJournal', focus: 'LiveTime', flow: '3 questions' }
 const factors: Factor[] = ['Meaningful Goal', 'Personal Control', 'Fast Feedback', 'Other']
 const repoUrl = repositoryUrl
+const hubUrl = 'https://lifeos-demo-kappa.vercel.app/'
 
 function App({ storageKey, account, existingAccount = false, journalCloudToken, guestCloud = false }: { storageKey?: string; account?: (language: AppLanguage, initialMode?: AccountEntryMode) => ReactNode; existingAccount?: boolean; journalCloudToken?: () => Promise<string | null>; guestCloud?: boolean }) {
   const effectiveStorageKey = storageKey ?? STORAGE_KEY
@@ -54,7 +55,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
   const showHome = serviceMode === 'hub' && !hiddenSections.includes('main')
   const showAskLiveOS = serviceMode === 'hub' && data.askLiveOSInBar === true
   const onHome = (id: Shortcut) => shortcutVisible(data, id, 'home')
-  const inBar = (id: Shortcut) => serviceMode === 'hub' ? shortcutVisible(data, id, 'bar') : id === serviceMode || (serviceMode === 'time' && id === 'focus')
+  const inBar = (id: Shortcut) => serviceMode === 'hub' ? shortcutVisible(data, id, 'bar') : serviceMode !== 'time' && id === serviceMode
   const defaultView: View = serviceMode === 'time' ? 'time-home' : serviceMode === 'tasks' || serviceMode === 'journal' ? serviceMode : showHome ? 'main' : (['journal', 'tasks'] as const).find(inBar) ?? 'settings'
   const [requestedView, setView] = useState<View>(() => {
     try { return serviceMode === 'hub' && localStorage.getItem(`${storageKey ?? STORAGE_KEY}.last-view`) === 'journal' ? 'journal' : defaultView }
@@ -620,8 +621,8 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
     return saved
   }
 
-  const returnLabel = showHome ? 'Back to Hub' : 'Back to Settings'
-  const returnFromSection = () => navigate(showHome ? 'main' : 'settings')
+  const returnLabel = showHome ? 'Back to Hub' : serviceMode === 'time' ? language === 'ru' ? 'Домой' : 'Back to Home' : 'Back to Settings'
+  const returnFromSection = () => navigate(showHome ? 'main' : serviceMode === 'time' ? 'time-home' : 'settings')
   const reflectionReturnLabel = reflectionReturnView === 'main' ? 'Back to Hub'
     : reflectionReturnView === 'ask' ? 'Back to Guide'
       : reflectionReturnView === 'journal' ? 'Back to Journal'
@@ -652,13 +653,13 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
       if (view === 'main') setHomeNavigationKey(key => key + 1)
       navigate('main')
     }} />}
+    {serviceMode === 'time' && <NavButton icon={<House size={iconSize} />} label={language === 'ru' ? 'Домой' : 'Home'} selected={view === 'time-home'} onClick={() => navigate('time-home')} />}
     {!bottom && <NavButton icon={<Settings2 size={iconSize} />} label={t('Settings')} selected={view === 'settings'} onClick={() => navigate('settings')} />}
     {visibleShortcuts.filter(({ id }) => inBar(id)).sort((a, b) => bottom ? Number(b.id === 'tasks') - Number(a.id === 'tasks') : 0).map(({ id }) => {
       const Icon = shortcutIcons[id]
       return <NavButton key={id} icon={<Icon size={iconSize} />} label={serviceLabels[id]} selected={view === id}
         onClick={() => {
           if (id !== 'focus') navigate(id)
-          else if (serviceMode === 'time') navigate('time-home')
           else if (data.activeSession) returnToFocus()
           else startFocus()
         }} />
@@ -666,12 +667,15 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
     {serviceMode === 'time' && <NavButton icon={<History size={iconSize} />} label={t('Focus history')} selected={view === 'focus-history'} onClick={() => navigate('focus-history')} />}
     {showAskLiveOS && <NavButton icon={<MessageCircle size={iconSize} />} label={t('Guide')} selected={view === 'ask'} onClick={() => navigate('ask')} />}
     {bottom && <NavButton icon={<Settings2 size={iconSize} />} label={t('Settings')} selected={view === 'settings'} onClick={() => navigate('settings')} />}
+    {serviceMode === 'time' && <a className="nav-button" href={hubUrl} aria-label={language === 'ru' ? 'Вернуться в Hub' : 'Back to Hub'}>
+      <ArrowLeft size={iconSize} aria-hidden="true" /><span>{language === 'ru' ? 'Вернуться в Hub' : 'Back to Hub'}</span>
+    </a>}
   </>
 
   const renderBrand = (size: number) => {
     const logo = <><span className="brand-mark"><Leaf size={size} strokeWidth={2.4} /></span><span>{serviceName}<span className="brand-dot">.</span></span></>
-    return showHome
-      ? <button className="brand" onClick={() => navigate('main')} aria-label={`${serviceName} home`}>{logo}</button>
+    return showHome || serviceMode === 'time'
+      ? <button className="brand" onClick={() => navigate(showHome ? 'main' : 'time-home')} aria-label={`${serviceName} home`}>{logo}</button>
       : <div className="brand">{logo}</div>
   }
 
@@ -728,7 +732,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
       onResume={() => resumeSession()}
       onLeave={() => pauseSession(false)}
       onMinimize={minimizeFocus}
-      returnDestination={showHome ? 'Hub' : shortcuts.find(({ id }) => id === defaultView)?.label ?? 'Settings'}
+      returnDestination={serviceMode === 'time' ? 'Home' : showHome ? 'Hub' : shortcuts.find(({ id }) => id === defaultView)?.label ?? 'Settings'}
       onFinish={endSession}
     >
       {breakReminder}
@@ -769,7 +773,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
     {undoNotice}
   </>)
 
-  const visibleNavCount = Number(showHome) + visibleShortcuts.filter(({ id }) => inBar(id)).length + Number(serviceMode === 'time') + Number(showAskLiveOS) + 1
+  const visibleNavCount = Number(showHome) + visibleShortcuts.filter(({ id }) => inBar(id)).length + Number(serviceMode === 'time') * 3 + Number(showAskLiveOS) + 1
   const mobileNavLayout = mobileNavigationLayout(visibleNavCount)
   const extraNavHeight = (mobileNavLayout.rows - 1) * 66
   const mobileNavStyle = {
@@ -859,7 +863,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
           appliedPresetId={data.focusPresetId}
           sessionState={data.pendingSession ? 'pending' : data.activeSession ? 'active' : 'idle'}
           onApply={applyPreset}
-          onBack={() => navigate(serviceMode === 'time' ? 'focus-history' : presetsReturnView)}
+          onBack={() => navigate(presetsReturnView)}
         />}
 
         {(view === 'flow' || view === 'focus-history') && <FlowEnginePage key={view}

@@ -44,6 +44,10 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
   })
   const [recoveryCode, setRecoveryCode] = useState(() => guestCloud ? readRecoveryCode() : null)
   const [loadResult, setLoadResult] = useState(() => loadData(storageKey))
+  const [showTimeIntro, setShowTimeIntro] = useState(() => {
+    if (serviceMode !== 'time') return false
+    try { return localStorage.getItem('livetime:intro-seen') !== 'true' } catch { return true }
+  })
   const [onboardingMode, setOnboardingMode] = useState(() => serviceMode === 'hub' ? initialOnboardingMode(storageKey, localStorage, window.location.search, existingAccount) : null)
   const data = loadResult.data
   const language = data.language ?? 'en'
@@ -709,6 +713,31 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
     setOnboardingMode(null)
     navigate(destination === 'focus' ? defaultView : destination)
     return true
+  }
+
+  if (showTimeIntro && !data.activeSession && !data.pendingSession) {
+    const russian = language === 'ru'
+    return <div className="lifeos-onboarding" style={{ insetBlock: 0, height: '100dvh' }}>
+      <div className="lifeos-onboarding__header" aria-hidden="true" />
+      <main className="lifeos-onboarding__content">
+        <p className="lifeos-onboarding__eyebrow">{serviceName}</p>
+        <h1>{russian ? 'Время для фокуса' : 'Make time to focus'}</h1>
+        <p className="lifeos-onboarding__description">{russian
+          ? 'Запускайте таймер, выбирайте пресеты и просматривайте историю сессий.'
+          : 'Start a timer, choose a preset, and revisit your focus sessions.'}</p>
+      </main>
+      <footer className="lifeos-onboarding__footer">
+        <button type="button" className="lifeos-onboarding__primary" onClick={() => {
+          try { localStorage.setItem('livetime:intro-seen', 'true') } catch { /* Continue for this visit. */ }
+          setShowTimeIntro(false)
+          navigate('time-home')
+        }}>{russian ? 'Открыть таймер' : 'Open timer'}</button>
+        <a className="nav-button" href={hubUrl} style={{ width: 'fit-content', marginInlineStart: 'auto' }}>
+          <ArrowLeft size={19} aria-hidden="true" />
+          <span>{russian ? 'Вернуться в Hub' : 'Back to Hub'}</span>
+        </a>
+      </footer>
+    </div>
   }
 
   if (onboardingMode) return <WebOnboarding mode={onboardingMode} displayName={data.displayName ?? ''} language={language}

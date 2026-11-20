@@ -84,7 +84,7 @@ export function TimeCloudPanel({ cloud, ru }: { cloud: ReturnType<typeof useTime
     missing: ['LiveTime vault not found.', 'Хранилище LiveTime не найдено.'],
   }
   return <section className="settings-page__panel">
-    <h2>{ru ? 'Гостевое облако' : 'Guest cloud'}</h2>
+    <h2>LifeTime Storage</h2>
     <p>{ru ? 'В облако сохраняются только завершённые сессии. Сохраните код для восстановления на другом устройстве.' : 'Cloud storage saves completed sessions. Keep the recovery code to restore them on another device.'}</p>
     {cloud.code ? <>
       <label className="settings-page__field">{ru ? 'Код восстановления' : 'Recovery code'}

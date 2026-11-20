@@ -30,3 +30,11 @@ Some internal identifiers still use `lifeos` so existing browser data and backup
 The three service repositories initially share this app's data model and support code. Each opens its own service first. Browser storage remains tied to each site's origin; use Settings → Export and Import to move a backup between sites. The existing `lifeos.v1` key and backup formats are retained for compatibility.
 
 This repository contains source code, not personal journal entries or production credentials. No independent Vercel deployment is connected yet.
+
+## Guest history cloud
+
+Configure a Neon database for LiveTime and apply db/livetime-history.sql. Set the
+server-only LIVETIME_HISTORY_DATABASE_URL in the LiveTime project. After the
+schema is ready, set VITE_LIVETIME_HISTORY_ENABLED=true and rebuild. The guest
+vault uses a service-specific recovery code and stores completed sessions only.
+Existing Journal configuration is independent.

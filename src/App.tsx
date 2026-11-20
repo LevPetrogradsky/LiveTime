@@ -1,3 +1,4 @@
+import { TimeCloudPanel, useTimeCloud } from './settings/TimeCloud'
 import MainDashboard from './MainDashboard'
 import MainFocus from './MainFocus'
 import TaskHistory from './TaskHistory'
@@ -186,6 +187,23 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
     }
     return persisted
   }
+
+  const canUseTimeCloud = serviceMode === 'time' && !storageKey && !existingAccount &&
+    import.meta.env.VITE_LIVETIME_HISTORY_ENABLED === 'true' && !loadResult.error
+  const timeCloud = useTimeCloud(canUseTimeCloud, data.sessions, data.pendingSession?.id, incoming => {
+    const current = dataRef.current
+    const sessions = new Map(current.sessions.map(session => [session.id, session]))
+    let changed = false
+    for (const session of incoming) {
+      const local = sessions.get(session.id)
+      if (session.id === current.pendingSession?.id || session.id === current.activeSession?.id) continue
+      if (!local || (local.interest === null && session.interest !== null)) {
+        sessions.set(session.id, session)
+        changed = true
+      }
+    }
+    return !changed || update(value => ({ ...value, sessions: [...sessions.values()] }))
+  })
 
   useEffect(() => {
     if (!journalCloudToken || !cloudEnabled || loadResult.error) return
@@ -924,6 +942,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
 
         {view === 'settings' && (
           <SettingsPage
+            timeCloud={canUseTimeCloud ? <TimeCloudPanel cloud={timeCloud} ru={language === 'ru'} /> : undefined}
             account={accountContent}
             journalSync={{ available: Boolean(journalCloudToken), enabled: cloudEnabled, guest: guestCloud, code: recoveryCode, status: journalCloudStatus,
               error: journalCloudError, lastSavedAt: journalLastSavedAt,

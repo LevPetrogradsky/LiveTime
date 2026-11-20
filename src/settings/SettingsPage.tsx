@@ -11,6 +11,7 @@ import './settings.css'
 const shortcutNames = { tasks: 'LiveTasks', journal: 'LiveJournal', focus: 'LiveTime', flow: '3 questions' }
 
 interface SettingsPageProps {
+  timeCloud?: ReactNode
   account?: ReactNode
   journalSync: JournalCloudControls
   theme: Theme
@@ -132,13 +133,13 @@ function AboutLiveOS({ repoUrl, language }: { repoUrl: string; language: AppLang
 }
 
 export default function SettingsPage({
-  account,
+  timeCloud, account,
   journalSync,
   theme, onThemeChange, language, onLanguageChange, timeFormat, onTimeFormatChange, interactiveTips, onInteractiveTipsChange, showHome, onHomeVisibilityChange, showAskLiveOS, onAskLiveOSVisibilityChange, shortcutVisible, onShortcutChange, onExport, onImport, repoUrl, focusCheckin, postFocusAction, onOpenPresets,
   reminderMinutes, onReminderMinutesChange, displayName, onDisplayNameChange, timerDefaultView, onTimerDefaultViewChange,
 }: SettingsPageProps) {
   if (serviceMode === 'time') return <TimeSettingsPage
-    account={account} language={language} onLanguageChange={onLanguageChange}
+    timeCloud={timeCloud} account={account} language={language} onLanguageChange={onLanguageChange}
     theme={theme} onThemeChange={onThemeChange} timeFormat={timeFormat} onTimeFormatChange={onTimeFormatChange}
     timerDefaultView={timerDefaultView} onTimerDefaultViewChange={onTimerDefaultViewChange}
     reminderMinutes={reminderMinutes} onReminderMinutesChange={onReminderMinutesChange}

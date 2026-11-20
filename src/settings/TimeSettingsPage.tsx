@@ -5,6 +5,7 @@ import { translate, type AppLanguage } from '../language'
 import './settings.css'
 
 interface TimeSettingsPageProps {
+  timeCloud?: ReactNode
   account?: ReactNode
   language: AppLanguage
   onLanguageChange: (language: AppLanguage) => void
@@ -41,7 +42,7 @@ function Group({ title, icon, children }: { title: string; icon: ReactNode; chil
 }
 
 export default function TimeSettingsPage({
-  account, language, onLanguageChange, theme, onThemeChange, timeFormat, onTimeFormatChange,
+  timeCloud, account, language, onLanguageChange, theme, onThemeChange, timeFormat, onTimeFormatChange,
   timerDefaultView, onTimerDefaultViewChange, reminderMinutes, onReminderMinutesChange,
   focusCheckin, postFocusAction, onOpenPresets, onExport, onImport,
 }: TimeSettingsPageProps) {
@@ -124,6 +125,7 @@ export default function TimeSettingsPage({
         </fieldset>
       </Group>
 
+      {timeCloud}
       {account && <Group title={t('Account')} icon={<UserRound size={18} />}>{account}</Group>}
 
       <Group title={language === 'ru' ? 'Данные и история' : 'Data & history'} icon={<HardDrive size={18} />}>

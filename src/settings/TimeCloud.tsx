@@ -83,8 +83,7 @@ export function TimeCloudPanel({ cloud, ru }: { cloud: ReturnType<typeof useTime
     invalid: ['Enter a LiveTime recovery code.', 'Введите код восстановления LiveTime.'],
     missing: ['LiveTime vault not found.', 'Хранилище LiveTime не найдено.'],
   }
-  return <section className="settings-page__panel">
-    <h2>LifeTime Storage</h2>
+  return <>
     <p>{ru ? 'В облако сохраняются только завершённые сессии. Сохраните код для восстановления на другом устройстве.' : 'Cloud storage saves completed sessions. Keep the recovery code to restore them on another device.'}</p>
     {cloud.code ? <>
       <label className="settings-page__field">{ru ? 'Код восстановления' : 'Recovery code'}
@@ -101,5 +100,5 @@ export function TimeCloudPanel({ cloud, ru }: { cloud: ReturnType<typeof useTime
       </form>
     </>}
     {messages[cloud.status] && <p role="status">{messages[cloud.status][ru ? 1 : 0]}</p>}
-  </section>
+  </>
 }

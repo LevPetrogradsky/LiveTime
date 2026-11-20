@@ -144,7 +144,6 @@ export default function SettingsPage({
     timerDefaultView={timerDefaultView} onTimerDefaultViewChange={onTimerDefaultViewChange}
     reminderMinutes={reminderMinutes} onReminderMinutesChange={onReminderMinutesChange}
     focusCheckin={focusCheckin} postFocusAction={postFocusAction} onOpenPresets={onOpenPresets}
-    onExport={onExport} onImport={onImport}
   />
   const t = (text: string) => translate(language, text)
   const [openSections, setOpenSections] = useState<Record<SettingsSection, boolean>>({

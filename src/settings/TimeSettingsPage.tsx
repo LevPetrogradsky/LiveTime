@@ -1,5 +1,5 @@
-import type { ChangeEvent, ReactNode } from 'react'
-import { ChevronRight, Download, HardDrive, Monitor, Moon, Palette, Sun, Timer, Upload, UserRound } from 'lucide-react'
+import type { ReactNode } from 'react'
+import { ChevronRight, HardDrive, Monitor, Moon, Palette, Sun, Timer, UserRound } from 'lucide-react'
 import { breakReminderMinutes, type BreakReminderMinutes, type PostFocusAction, type Theme } from '../data'
 import { translate, type AppLanguage } from '../language'
 import './settings.css'
@@ -20,8 +20,6 @@ interface TimeSettingsPageProps {
   focusCheckin?: { enabled: boolean; onChange: (enabled: boolean) => void }
   postFocusAction?: { value?: PostFocusAction; onChange: (action: PostFocusAction) => void }
   onOpenPresets?: () => void
-  onExport: () => void
-  onImport: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const themes = [
@@ -44,7 +42,7 @@ function Group({ title, icon, children }: { title: string; icon: ReactNode; chil
 export default function TimeSettingsPage({
   timeCloud, account, language, onLanguageChange, theme, onThemeChange, timeFormat, onTimeFormatChange,
   timerDefaultView, onTimerDefaultViewChange, reminderMinutes, onReminderMinutesChange,
-  focusCheckin, postFocusAction, onOpenPresets, onExport, onImport,
+  focusCheckin, postFocusAction, onOpenPresets,
 }: TimeSettingsPageProps) {
   const t = (text: string) => translate(language, text)
 
@@ -125,23 +123,9 @@ export default function TimeSettingsPage({
         </fieldset>
       </Group>
 
-      {timeCloud}
       {account && <Group title={t('Account')} icon={<UserRound size={18} />}>{account}</Group>}
 
-      <Group title={language === 'ru' ? 'Данные и история' : 'Data & history'} icon={<HardDrive size={18} />}>
-        <p className="settings-page__description">{language === 'ru'
-          ? 'Сохраните копию перед переносом или восстановлением истории таймера.'
-          : 'Save a copy before moving or restoring your timer history.'}</p>
-        <div className="settings-page__actions">
-          <button type="button" className="settings-page__action" onClick={onExport}>
-            <Download size={17} aria-hidden="true" />{t('Save a copy')}
-          </button>
-          <label className="settings-page__action settings-page__upload">
-            <Upload size={17} aria-hidden="true" />{t('Restore from a copy')}
-            <input type="file" accept="application/json,.json" onChange={onImport} />
-          </label>
-        </div>
-      </Group>
+      {timeCloud && <Group title="LifeTime Storage" icon={<HardDrive size={18} />}>{timeCloud}</Group>}
     </div>
   </main>
 }

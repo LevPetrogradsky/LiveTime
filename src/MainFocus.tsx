@@ -121,7 +121,7 @@ export default function MainFocus({
     <header className="life-main-focus-top">
       <button type="button" aria-label={language === 'ru' ? `${paused ? 'Вернуться' : 'Поставить на паузу и вернуться'}: ${t(returnDestination)}` : paused ? `Back to ${returnDestination}` : `Pause and return to ${returnDestination}`}
         title={language === 'ru' ? `Вернуться: ${t(returnDestination)}` : `Back to ${returnDestination}`} onClick={onLeave}><ArrowLeft size={22} aria-hidden="true" /></button>
-      <h1>LiveTime</h1>
+      <h1>LifeTime</h1>
       <button ref={dialogTrigger} type="button" aria-label={t('Focus options')} aria-haspopup="dialog"
         onClick={() => dialog.current?.showModal()}><Ellipsis size={23} /></button>
     </header>
@@ -162,7 +162,7 @@ export default function MainFocus({
       </div>
       {help ? <>
         <p>{t(help.description)}</p>
-        <p>{t('LiveOS Portable can’t change these settings from the browser.')}</p>
+        <p>{t('LifePortable can’t change these settings from the browser.')}</p>
         <a href={help.link} target="_blank" rel="noreferrer">{t('Apple Screen Time guide')} <ExternalLink size={16} /></a>
       </> : <div className="life-main-focus-dialog-actions">
         <button type="button" onClick={() => setPanel('apps')}>
@@ -177,7 +177,7 @@ export default function MainFocus({
         <button type="button" aria-pressed={ambient} onClick={toggleAmbient}>
           <Trees size={18} aria-hidden="true" /> {t('Ambient')} <span>{t(ambient ? 'On' : 'Off')}</span>
         </button>
-        <p id="focus-silence-help" className="life-main-focus-tool-note">{t('Silence applies to LiveOS Portable break reminders.')}</p>
+        <p id="focus-silence-help" className="life-main-focus-tool-note">{t('Silence applies to LifePortable break reminders.')}</p>
         {ambientMessage && <p className="life-main-focus-tool-note" role="status">{t(ambientMessage)}</p>}
       </div>}
     </dialog>

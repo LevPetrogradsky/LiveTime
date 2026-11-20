@@ -43,7 +43,7 @@ function ResetPassword({ auth, token, onDone }: { auth: AccountAuth; token: stri
       <button type="submit" className="settings-page__action" disabled={busy}>Save new password</button>
     </form>}
     {(message || !token) && <p role="status">{message || 'This reset link is invalid or has expired.'}</p>}
-    <button type="button" className="settings-page__action" disabled={busy} onClick={onDone}>Back to LiveOS Portable</button>
+    <button type="button" className="settings-page__action" disabled={busy} onClick={onDone}>Back to LifePortable</button>
   </main>
 }
 
@@ -52,9 +52,9 @@ function ConnectedApp({ auth }: { auth: AccountAuth }) {
   const guestToken = import.meta.env.VITE_JOURNAL_SYNC_ENABLED === 'true'
     ? async () => { const code = readRecoveryCode(); return code ? `Guest ${code}` : null }
     : undefined
-  if (isPending) return <main className="settings-page"><p role="status">Opening LiveOS Portable...</p></main>
+  if (isPending) return <main className="settings-page"><p role="status">Opening LifePortable...</p></main>
   if (error) return <App journalCloudToken={guestToken} guestCloud account={language => <div className="settings-page__account">
-    <p className="settings-page__description" role="alert">{translate(language, 'Could not connect to your account. You can use LiveOS Portable as a guest.')}</p>
+    <p className="settings-page__description" role="alert">{translate(language, 'Could not connect to your account. You can use LifePortable as a guest.')}</p>
     <button type="button" className="settings-page__action" onClick={() => void refetch()}>{translate(language, 'Try again')}</button>
   </div>} existingAccount />
 

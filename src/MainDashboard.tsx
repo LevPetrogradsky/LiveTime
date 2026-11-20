@@ -238,7 +238,7 @@ export default function MainDashboard({ initialScreen = 'home', hideBack = false
           <Github size={15} aria-hidden="true" /> {t('View on GitHub')}
         </a>
         <a className="life-main-support" href="https://ko-fi.com/lifeosapp" target="_blank" rel="noopener noreferrer">
-          <Heart size={15} aria-hidden="true" /> {language === 'ru' ? 'Поддержать LiveOS Portable' : 'Support LiveOS Portable'}
+          <Heart size={15} aria-hidden="true" /> {language === 'ru' ? 'Поддержать LifePortable' : 'Support LifePortable'}
         </a>
       </div>
       <div className="life-main-hero-actions">
@@ -285,15 +285,15 @@ export default function MainDashboard({ initialScreen = 'home', hideBack = false
       <nav className="life-main-shortcuts" aria-label="Live Services">
         {showTasksShortcut && <button type="button" onClick={() => openTasks()}>
           <span className="life-main-shortcut-icon tasks"><ClipboardList size={21} aria-hidden="true" /></span>
-          <strong>LiveTasks</strong>
+          <strong>LifeTasks</strong>
         </button>}
         {onJournal && <button type="button" onClick={onJournal}>
           <span className="life-main-shortcut-icon journal"><BookOpen size={21} aria-hidden="true" /></span>
-          <strong>LiveJournal</strong>
+          <strong>LifeJournal</strong>
         </button>}
         {showFocusShortcut && <button type="button" onClick={breakCard ? onReturnToFocus : onStartOpenFocus}>
           <span className="life-main-shortcut-icon focus"><Play size={21} aria-hidden="true" /></span>
-          <strong>LiveTime</strong>
+          <strong>LifeTime</strong>
         </button>}
         <a href="https://gymos-preview.vercel.app/" target="_blank" rel="noopener noreferrer"
           aria-label={language === 'ru' ? 'Открыть LiveGym в новой вкладке' : 'Open LiveGym in a new tab'}>
@@ -340,7 +340,7 @@ export default function MainDashboard({ initialScreen = 'home', hideBack = false
         if (onReturnHome) onReturnHome()
         else { setScreen('home'); showList('today') }
       }}><ArrowLeft size={21} /></button>}
-      <h1 ref={heading} tabIndex={-1}>LiveTasks</h1>
+      <h1 ref={heading} tabIndex={-1}>LifeTasks</h1>
       <button type="button" className="life-main-icon" aria-label={t('Add task')} aria-haspopup="dialog" disabled={!canAdd} onClick={() => addTo(addList)}><Plus size={23} /></button>
     </header>
 

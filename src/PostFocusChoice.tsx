@@ -15,7 +15,7 @@ export default function PostFocusChoice({ taskTitle, storageError, preferred, on
   const t = (text: string) => translate(language, text)
   return <main className="checkin-screen page-container post-focus-choice">
     {storageError && <p className="storage-error" role="alert">{t('Your choice could not be saved. Please try again.')}</p>}
-    <div className="focus-top"><div className="brand-mark"><Leaf size={18} strokeWidth={2.3} /></div><span>{t('LiveOS Portable / Focus complete')}</span></div>
+    <div className="focus-top"><div className="brand-mark"><Leaf size={18} strokeWidth={2.3} /></div><span>{t('LifePortable / Focus complete')}</span></div>
     <section className="post-focus-choice__card" aria-labelledby="post-focus-choice-title">
       <div className="section-icon"><Sparkles size={20} aria-hidden="true" /></div>
       <p className="eyebrow">{t('FOCUS COMPLETE')}</p>

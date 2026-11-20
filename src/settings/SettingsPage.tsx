@@ -8,7 +8,7 @@ import TimeSettingsPage from './TimeSettingsPage'
 import { serviceMode } from '../service-mode'
 import './settings.css'
 
-const shortcutNames = { tasks: 'LiveTasks', journal: 'LiveJournal', focus: 'LiveTime', flow: '3 questions' }
+const shortcutNames = { tasks: 'LifeTasks', journal: 'LifeJournal', focus: 'LifeTime', flow: '3 questions' }
 
 interface SettingsPageProps {
   account?: ReactNode

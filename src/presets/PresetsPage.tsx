@@ -78,7 +78,7 @@ export default function FocusPresets({ language = 'en', appliedPresetId, session
         </div>
         <div className="life-presets-summary-detail">
           <BellOff size={17} aria-hidden="true" />
-          <span>{selected.silenceBreakReminders ? language === 'ru' ? 'Напоминания LiveOS Portable отключены' : 'LiveOS Portable reminders silenced' : language === 'ru' ? 'Напоминания LiveOS Portable включены' : 'LiveOS Portable reminders on'}</span>
+          <span>{selected.silenceBreakReminders ? language === 'ru' ? 'Напоминания LifePortable отключены' : 'LifePortable reminders silenced' : language === 'ru' ? 'Напоминания LifePortable включены' : 'LifePortable reminders on'}</span>
         </div>
       </section>
 

@@ -53,12 +53,12 @@ const russianAnswers: Record<string, { text: string; steps: string[] }> = {
   'focus:clarify-pause': { text: 'Ты имеешь в виду паузу во время фокус-сессии?', steps: [] },
   'journal:write': { text: 'В Journal можно сохранять заметки и фотографии и раскладывать их по папкам.', steps: ['Открой Journal через плитку на Home.', 'Напиши заметку в Brain dump и нажми Save.', 'Если нужна папка, выбери её до сохранения.'] },
   'navigation:toggle': { text: 'Состав нижней панели можно настроить.', steps: ['Открой Settings, затем Navigation.', 'Включи или выключи Гид и Journal для нижней панели.', 'Выбор сохранится автоматически.'] },
-  'backup:export': { text: 'Резервная копия сохраняет данные LiveOS Portable в файл.', steps: ['Открой Settings и нажми Export.', 'Сохрани скачанный файл в надёжном месте.', 'При необходимости восстанови его через Import в Settings.'] },
+  'backup:export': { text: 'Резервная копия сохраняет данные LifePortable в файл.', steps: ['Открой Settings и нажми Export.', 'Сохрани скачанный файл в надёжном месте.', 'При необходимости восстанови его через Import в Settings.'] },
   'tasks:link': { text: 'Заметку Journal можно связать с одной задачей.', steps: ['Открой Tasks и нажми название задачи.', 'В истории нажми Link a note и выбери свободную заметку.', 'Или нажми Write a reflection, чтобы создать новую связанную заметку.'] },
   'tasks:history': { text: 'Можно посмотреть все фокус-сессии или только сессии одной задачи.', steps: ['Нажми Focus history на Home, чтобы увидеть общий список.', 'Для одной задачи открой Tasks и нажми её название.'] },
   'tasks:plan': { text: 'Для текущих дел есть Today, а для идей на потом — Someday.', steps: ['Нажми Add a task на Home или открой Tasks.', 'Выбери Today или Someday.', 'В Today помещается до пяти активных задач.'] },
   'reflect:review': { text: 'Три вопроса помогают заметить, что делало фокус-сессии полезными.', steps: ['Заверши сессию фокуса.', 'Выбери «Написать рефлексию», чтобы ответить на вопросы.', 'Прошлые ответы доступны в истории фокуса.'] },
-  'settings:personalize': { text: 'В Settings можно настроить LiveOS Portable под себя.', steps: ['Открой Settings.', 'В Personalize выбери тему, а в Navigation настрой нижнюю панель.', 'Там же можно экспортировать резервную копию.'] },
+  'settings:personalize': { text: 'В Settings можно настроить LifePortable под себя.', steps: ['Открой Settings.', 'В Personalize выбери тему, а в Navigation настрой нижнюю панель.', 'Там же можно экспортировать резервную копию.'] },
 }
 
 export function answerLiveOS(question: string, previous?: GuideContext): GuideAnswer {
@@ -69,7 +69,7 @@ export function answerLiveOS(question: string, previous?: GuideContext): GuideAn
     : undefined
   return {
     ...result,
-    text: translated?.text ?? (previous ? 'Уточни, пожалуйста: речь о предыдущем шаге или о другой функции LiveOS Portable?' : 'Я могу помочь с Tasks, Journal, Focus, Reflect и Settings. Выбери близкий вопрос ниже.'),
+    text: translated?.text ?? (previous ? 'Уточни, пожалуйста: речь о предыдущем шаге или о другой функции LifePortable?' : 'Я могу помочь с Tasks, Journal, Focus, Reflect и Settings. Выбери близкий вопрос ниже.'),
     steps: translated?.steps ?? [],
     followUps: result.followUps.map(prompt => russianPrompts[prompt] ?? prompt),
   }
@@ -88,7 +88,7 @@ function answerEnglish(question: string, previous?: GuideContext): GuideAnswer {
       ['How do I change the theme?', 'Where is Journal?'])
   }
   if (/backup|export|save.*copy|резерв|копи|экспорт/.test(query)) {
-    return answer('A backup gives you a copy of your LiveOS Portable data.', 'settings', { topic: 'backup', step: 'export' },
+    return answer('A backup gives you a copy of your LifePortable data.', 'settings', { topic: 'backup', step: 'export' },
       ['Open Settings and use Export to download a backup file.', 'Keep the file somewhere safe.', 'Use Import in Settings if you need to restore it.'],
       ['How do I save a note in a folder?', 'How do I customize the bottom bar?'])
   }
@@ -133,7 +133,7 @@ function answerEnglish(question: string, previous?: GuideContext): GuideAnswer {
       ['How do I start a focus session?', 'How do I link a note to a task?'])
   }
   if (/settings?|theme|dark|light|account|настрой|тем[аыуе]|аккаунт/.test(query)) {
-    return answer('Settings lets you personalize LiveOS Portable.', 'settings', { topic: 'settings', step: 'personalize' },
+    return answer('Settings lets you personalize LifePortable.', 'settings', { topic: 'settings', step: 'personalize' },
       ['Open Settings.', 'Choose Personalize for the theme, or Navigation for the bottom bar.', 'You can also export a backup there.'],
       ['How do I customize the bottom bar?', 'How do I back up my notes?'])
   }
@@ -144,7 +144,7 @@ function answerEnglish(question: string, previous?: GuideContext): GuideAnswer {
     : previous?.topic === 'focus' ? ['How do I pause a focus session?', 'How do I finish the session?']
       : starterQuestions.slice(0, 3)
   return answer(previous
-    ? 'I want to make sure I understood. Is your question about that last step, or would you like another LiveOS Portable topic?'
+    ? 'I want to make sure I understood. Is your question about that last step, or would you like another LifePortable topic?'
     : 'I’m not sure about that one yet. I can help with Tasks, Journal, Focus, 3 questions, and Settings. Try one of these:',
   undefined, previous ?? { topic: 'settings', step: 'clarify' }, [], contextual)
 }

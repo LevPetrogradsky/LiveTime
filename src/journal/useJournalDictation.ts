@@ -146,7 +146,7 @@ export function useJournalDictation(onText: (text: string) => void) {
     }
 
     if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder || !window.OfflineAudioContext) {
-      setMessage('This browser can’t record audio here. Open LiveOS Portable in Safari or Chrome to dictate.')
+      setMessage('This browser can’t record audio here. Open LifePortable in Safari or Chrome to dictate.')
       return
     }
 

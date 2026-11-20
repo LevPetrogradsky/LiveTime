@@ -31,7 +31,7 @@ const destinations: { id: OnboardingDestination; title: string; detail: string }
 
 const titles = ['A little space for your day', 'Make it yours', 'Where would you like to begin?']
 const descriptions = [
-  'LiveOS Portable keeps your plans, notes, and focus time together on this device.',
+  'LifePortable keeps your plans, notes, and focus time together on this device.',
   'Your name is optional. You can change it later in Settings.',
   'Pick a starting point. Everything else stays one tap away.',
 ]
@@ -70,7 +70,7 @@ export default function WebOnboarding({ mode, displayName, account, language, on
     if (!onComplete(name.trim(), destination)) setError('Your setup could not be saved. Please try again.')
   }
 
-  return <div className="lifeos-onboarding" role="dialog" aria-modal="true" aria-label="Welcome to LiveOS Portable"
+  return <div className="lifeos-onboarding" role="dialog" aria-modal="true" aria-label="Welcome to LifePortable"
     style={{ height: visibleViewport.height ? `${visibleViewport.height}px` : '100dvh', top: visibleViewport.top }}>
     <div className="lifeos-onboarding__header">
       {step > 1 || accountMode ? <button type="button" className="lifeos-onboarding__back" onClick={accountMode ? () => setAccountMode(undefined) : back}>
@@ -83,7 +83,7 @@ export default function WebOnboarding({ mode, displayName, account, language, on
     <div className="lifeos-onboarding__track" aria-hidden="true"><span style={{ width: `${step * 100 / 3}%` }} /></div>
 
     <main className="lifeos-onboarding__content" key={step}>
-      <p className="lifeos-onboarding__eyebrow">LiveOS Portable</p>
+      <p className="lifeos-onboarding__eyebrow">LifePortable</p>
       <h1>{accountMode ? t('Account') : titles[step - 1]}</h1>
       {!accountMode && <p className="lifeos-onboarding__description">{descriptions[step - 1]}</p>}
 
@@ -117,7 +117,7 @@ export default function WebOnboarding({ mode, displayName, account, language, on
     {!accountMode && <div className="lifeos-onboarding__footer">
       {error && <p role="alert" className="lifeos-onboarding__error">{error}</p>}
       <button type="button" className="lifeos-onboarding__primary" onClick={advance}>
-        {step === 1 ? t('Continue as a guest') : step === 3 ? 'Open LiveOS Portable' : 'Continue'}
+        {step === 1 ? t('Continue as a guest') : step === 3 ? 'Open LifePortable' : 'Continue'}
       </button>
     </div>}
   </div>

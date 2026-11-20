@@ -165,7 +165,7 @@ export default function AskLiveOS({ actions, language = 'en' }: { actions: Actio
     {cloudEnabled && <p className="life-main-ai-active" role="status"><Sparkles size={15} aria-hidden="true" /> {language === 'ru' ? `Ответы ${providerNames[provider]} включены` : `${providerNames[provider]} answers enabled`}</p>}
     {notice && <p className="life-main-ai-result temporary_failure" role="status">{notice}</p>}
     {exchanges.length > 0 && <div className="life-main-guide-conversation">
-      <div ref={messages} className="life-main-guide-messages" role="log" aria-label="LiveOS Portable help answers" aria-live="polite">
+      <div ref={messages} className="life-main-guide-messages" role="log" aria-label="LifePortable help answers" aria-live="polite">
         {exchanges.map((exchange, index) => <div className="life-main-guide-exchange" key={index}>
           <p className="life-main-guide-question">{exchange.question}</p>
           <div className="life-main-guide-reply">
@@ -185,10 +185,10 @@ export default function AskLiveOS({ actions, language = 'en' }: { actions: Actio
       <div>{prompts.map(prompt => <button type="button" key={prompt} disabled={asking} onClick={() => void ask(prompt)}>{prompt}<ArrowRight size={15} aria-hidden="true" /></button>)}</div>
     </div>
     <form className="life-main-guide-form" onSubmit={submit}>
-      <label className="journal-sr-only" htmlFor="life-main-guide-question">{language === 'ru' ? 'Вопрос о LiveOS Portable' : 'Ask about LiveOS Portable'}</label>
-      <input id="life-main-guide-question" value={question} maxLength={160} placeholder={language === 'ru' ? 'Спросите о LiveOS Portable…' : 'Ask about LiveOS Portable…'}
+      <label className="journal-sr-only" htmlFor="life-main-guide-question">{language === 'ru' ? 'Вопрос о LifePortable' : 'Ask about LifePortable'}</label>
+      <input id="life-main-guide-question" value={question} maxLength={160} placeholder={language === 'ru' ? 'Спросите о LifePortable…' : 'Ask about LifePortable…'}
         onChange={event => setQuestion(event.target.value)} />
-      <button type="submit" aria-label={language === 'ru' ? 'Спросить LiveOS Portable' : 'Ask LiveOS Portable'} disabled={!question.trim() || asking}><ArrowRight size={18} aria-hidden="true" /></button>
+      <button type="submit" aria-label={language === 'ru' ? 'Спросить LifePortable' : 'Ask LifePortable'} disabled={!question.trim() || asking}><ArrowRight size={18} aria-hidden="true" /></button>
     </form>
     <p className="life-main-guide-disclaimer">{asking ? (language === 'ru' ? 'Ожидаем ответ…' : 'Waiting for an answer…') : cloudEnabled ? (language === 'ru' ? 'Подключённый провайдер · только этот диалог' : 'Connected provider · this conversation only') : (language === 'ru' ? 'Локальные подсказки · без аккаунта' : 'Local guide · no account needed')}</p>
   </section>

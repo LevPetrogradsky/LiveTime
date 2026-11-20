@@ -361,7 +361,7 @@ export function parseBackup(raw: string, preserveSync = false): LiveOSData {
       ? { ...task, list: 'someday' }
       : task)
   }
-  if (!validateLiveOSData(parsed)) throw new Error('This file does not have a valid LiveOS Portable backup structure.')
+  if (!validateLiveOSData(parsed)) throw new Error('This file does not have a valid LifePortable backup structure.')
   // A backup can move between accounts; never carry its original account's sync queue.
   if (!preserveSync) delete (parsed as LiveOSData).journalCloud
   return parsed
@@ -435,7 +435,7 @@ export function loadData(storageKey = STORAGE_KEY): LoadResult {
     try {
       return { data: resolvePendingSession(parseBackup(raw, true)), error: null }
     } catch (error) {
-      return { data: emptyData(), error: error instanceof Error ? error.message : 'Saved LiveOS Portable data could not be read.' }
+      return { data: emptyData(), error: error instanceof Error ? error.message : 'Saved LifePortable data could not be read.' }
     }
   } catch {
     return { data: emptyData(), error: 'Browser storage is unavailable. Import a backup before continuing.' }

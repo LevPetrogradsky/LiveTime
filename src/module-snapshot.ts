@@ -33,12 +33,12 @@ const copyTask = (task: Task): Task => ({
 })
 
 export function createJournalSnapshot(data: LiveOSData): JournalSnapshot {
-  if (!validateLiveOSData(data)) throw new Error('LiveOS Portable data needs recovery before Journal can be copied.')
+  if (!validateLiveOSData(data)) throw new Error('LifePortable data needs recovery before Journal can be copied.')
   return { format: 'lifeos-journal', version: 1, entries: data.journal.map(copyEntry), folders: (data.journalFolders ?? []).map(copyFolder) }
 }
 
 export function createTasksSnapshot(data: LiveOSData): TasksSnapshot {
-  if (!validateLiveOSData(data)) throw new Error('LiveOS Portable data needs recovery before Tasks can be copied.')
+  if (!validateLiveOSData(data)) throw new Error('LifePortable data needs recovery before Tasks can be copied.')
   return { format: 'lifeos-tasks', version: 1, tasks: data.tasks.map(copyTask) }
 }
 

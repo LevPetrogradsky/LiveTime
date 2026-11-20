@@ -31,7 +31,7 @@ import { repositoryUrl, serviceMode, serviceName } from './service-mode'
 
 type View = Exclude<Shortcut, 'focus'> | 'main' | 'ask' | 'settings' | 'focus-history' | 'presets' | 'time-home'
 const shortcutIcons = { tasks: ClipboardList, journal: BookOpen, focus: Play, flow: MessageCircle }
-const serviceLabels = { tasks: 'LiveTasks', journal: 'LiveJournal', focus: 'LiveTime', flow: '3 questions' }
+const serviceLabels = { tasks: 'LifeTasks', journal: 'LifeJournal', focus: 'LifeTime', flow: '3 questions' }
 const factors: Factor[] = ['Meaningful Goal', 'Personal Control', 'Fast Feedback', 'Other']
 const repoUrl = repositoryUrl
 const hubUrl = 'https://lifeos-demo-kappa.vercel.app/'
@@ -752,7 +752,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
   if (data.pendingSession) return (<>
     <main className="checkin-screen page-container">
       {storageError && <div className="storage-error" role="alert">{t('Your browser could not save the check-in. Your answers are still here. Check available storage and try again.')}</div>}
-      <div className="focus-top"><div className="brand-mark"><Leaf size={18} strokeWidth={2.3} /></div><span>{t('LiveOS Portable / Check-in')}</span></div>
+      <div className="focus-top"><div className="brand-mark"><Leaf size={18} strokeWidth={2.3} /></div><span>{t('LifePortable / Check-in')}</span></div>
       <div className="checkin-card">
         <div className="section-icon"><Sparkles size={20} /></div>
         <p className="eyebrow">{t('A MOMENT TO REFLECT')}</p>
@@ -798,7 +798,7 @@ function App({ storageKey, account, existingAccount = false, journalCloudToken, 
         {breakReminder}
         {view === 'time-home' && <main className="life-time-home">
           <div className="life-time-home-content">
-            <p className="life-time-home-eyebrow">LiveTime</p>
+            <p className="life-time-home-eyebrow">LifeTime</p>
             <h1>{language === 'ru' ? 'Таймер' : 'Timer'}</h1>
             <div className="life-time-home-clock" role="timer" aria-label={language === 'ru' ? 'Время фокуса' : 'Focus time'}>
               {data.activeSession ? elapsedClock(focusedDuration(data.activeSession, now)) : '00:00'}
